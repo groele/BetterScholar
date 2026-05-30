@@ -1,48 +1,152 @@
-# 🎓 BetterScholar
+<div align="center">
 
-**BetterScholar** 是一个轻量级的 Tampermonkey（油猴）用户脚本，旨在无缝增强 Google Scholar（谷歌学术）的文献检索体验。它在不破坏原生极简 UI 的前提下，为您添加了强大的**按引用排序、按年份排序、标签化展示以及出版商侧边栏过滤**功能。
+# BetterScholar
 
-![页面截图](example.png)
+**轻量级 Google Scholar 检索增强用户脚本**  
+*Lightweight Google Scholar userscript for result sorting, source tagging, and page-level filtering.*
 
-## ✨ 核心功能 (Features)
+![Type](https://img.shields.io/badge/type-Tampermonkey%20Userscript-blue?style=flat-square)
+![Domain](https://img.shields.io/badge/domain-literature%20search-green?style=flat-square)
+![Architecture](https://img.shields.io/badge/architecture-page--native-purple?style=flat-square)
+![License](https://img.shields.io/badge/license-MIT-yellow?style=flat-square)
 
-- 📊 **高级排序 (Smart Sorting)**
-  - 支持将当前页面的文献一键按 **“引用量 (Citations)”** 或 **“年份 (Year)”** 降序排列。
-  - 支持一键 **“恢复默认排序”**，随时退回 Google 学术原生的相关性结果。
-- 🏷️ **自动提取与标签化 (Auto-Tagging)**
-  - 智能解析每篇文献的元数据，自动提取**发表年份**与**出版商/数据库**（如 IEEE, arXiv, Nature, Science, ACM, Elsevier 等）。
-  - 在文献标题上方生成极简的、符合原生风格的灰色边框标签，一目了然。
-- 🔍 **侧边栏动态过滤 (Sidebar Filtering)**
-  - 自动收集当前页面出现的所有出版商，并在左侧边栏动态生成带复选框的过滤面板。
-  - 自由勾选或取消勾选，快速隐藏不关心的数据库来源，实现精准找文。
-- 🎨 **原生 UI 融合 (Native UI Experience)**
-  - 拒绝花哨。所有按钮、标签、分割线均严格采用 Google Scholar 原生的色彩规范（纯白、浅灰边框、深灰文字及经典谷歌蓝），仿佛官方自带功能。
+Part of **ResearchFlow Lab** — a local-first research productivity ecosystem for literature, manuscripts, data, and scientific visualization.
 
-## 🚀 安装指南 (Installation)
+</div>
 
-1. 首先，请确保您的浏览器已安装 [Tampermonkey (油猴)](https://www.tampermonkey.net/) 扩展。
-2. 点击此处安装脚本：[Better Scholar](https://greasyfork.org/zh-CN/scripts/569246-better-scholar)。
-3. 或者，您也可以手动复制 `BetterScholar.js` 中的代码，在 Tampermonkey 中新建脚本并粘贴保存。
+---
 
-## 💻 使用方法 (Usage)
+## 01. Overview
 
-安装并启用脚本后，正常访问 [Google Scholar](https://scholar.google.com/) 并进行搜索。
-- **顶部工具栏**：在“找到约 xxx 条结果”旁边，您会看到三个新增的排序按钮。
-- **左侧边栏**：在默认的“按日期排序”选项下方，会自动出现“出版商过滤”面板。
-- 所有的过滤与排序功能均可叠加使用。
+**BetterScholar** is a lightweight Tampermonkey userscript that improves the Google Scholar result page without replacing its native interface. It adds page-level sorting, publication-year extraction, source tagging, and publisher/database filtering.
 
-## ⚠️ 局限性说明 (Limitations)
+**BetterScholar** 是一个轻量级 Google Scholar 增强脚本，适合在当前检索结果页快速做“微观筛选”：按引用量、年份和来源初步判断文献价值。
 
-由于 Google Scholar 并没有开放全局按引用量排序的官方 API，**本脚本的所有排序和过滤功能仅对“当前已加载的页面”（通常为 10 或 20 条文献）有效**。 
-本工具的定位是辅助您在当前检索结果页进行快速的“微观筛选”，无法实现跨越数百页的“宏观全局排序”。如果需要全局海量数据分析，建议配合专业的文献爬虫工具或 Publish or Perish 使用。
+---
 
-## 🛠️ 兼容性 (Compatibility)
+## 02. Why this project exists
 
-已在以下域名测试通过：
-- `scholar.google.com`
-- `scholar.google.cz`
-- `scholar.google.co.jp`
+Google Scholar is powerful, but its result page is intentionally minimal. Researchers often need quick local filtering by year, citation count, publisher, database, or source type. BetterScholar adds these controls directly to the existing Google Scholar page while keeping the original reading experience intact.
 
-## 🤝 贡献与支持 (Contributing)
+核心目标：
 
-欢迎提交 Pull Request 或发起 Issue！如果您觉得这个脚本提升了您的科研效率，欢迎给这个项目点一个 ⭐️ Star。
+- Keep the Google Scholar interface lightweight and familiar.
+- Add useful local sorting and filtering without external services.
+- Help researchers screen papers faster on the current result page.
+- Serve as a minimal userscript counterpart to PaperPilot Pro.
+
+---
+
+## 03. Key features
+
+| Module | What it does | 中文说明 |
+|---|---|---|
+| Citation Sorting | Sorts currently loaded results by citation count | 按当前页引用量排序 |
+| Year Sorting | Sorts currently loaded results by publication year | 按当前页发表年份排序 |
+| Source Tagging | Extracts and displays publisher/database labels | 自动提取并显示出版商或数据库标签 |
+| Sidebar Filtering | Filters visible results by publisher or database | 通过侧边栏按来源筛选结果 |
+| Native UI Style | Uses Google Scholar-like visual language | 尽量保持 Google Scholar 原生视觉风格 |
+| Reset Control | Restores default result order | 一键恢复默认排序 |
+
+---
+
+## 04. Product philosophy
+
+BetterScholar follows four design principles:
+
+1. **Minimal intervention** — enhance the page without visually overwhelming it.
+2. **Current-page scope** — keep behavior transparent and limited to loaded results.
+3. **No server dependency** — run entirely in the browser userscript context.
+4. **Fast screening** — help users decide what to open, save, or ignore.
+
+---
+
+## 05. Architecture
+
+```text
+Google Scholar Page
+    ↓
+BetterScholar Userscript
+├── result parser
+├── citation and year extractor
+├── publisher/source tagger
+├── sorting controls
+├── sidebar filter controls
+└── native-style UI injection
+```
+
+---
+
+## 06. Quick start
+
+1. Install a userscript manager such as **Tampermonkey**.
+2. Install the BetterScholar userscript from the release/source script.
+3. Open Google Scholar and perform a search.
+4. Use the injected sorting and filtering controls on the result page.
+
+Manual installation:
+
+```bash
+git clone https://github.com/groele/BetterScholar.git
+```
+
+Then copy the userscript content into Tampermonkey.
+
+---
+
+## 07. Recommended workflow
+
+```text
+Search topic on Google Scholar → Sort by citations / year
+                               → Filter by source
+                               → Open promising results
+                               → Save important papers to PaperPilot / ResearchFlow / Zotero
+```
+
+Typical use cases:
+
+- Quickly screen the first page of Google Scholar results.
+- Identify high-citation papers on the loaded page.
+- Remove irrelevant databases or source types.
+- Use as a lightweight alternative when a full extension is unnecessary.
+
+---
+
+## 08. Limitations
+
+BetterScholar only processes the **currently loaded Google Scholar result page**. It does not perform global ranking across all search results because Google Scholar does not provide an official full-result sorting API.
+
+For more advanced literature workflows, use **PaperPilot Pro** or **ResearchFlow Companion**.
+
+---
+
+## 09. Roadmap
+
+- [ ] Improve source detection across more Scholar domains
+- [ ] Add configurable source groups
+- [ ] Add export of visible result metadata
+- [ ] Add integration notes for PaperPilot Pro
+- [ ] Add safer handling for Google Scholar layout changes
+
+---
+
+## 10. Privacy and data ownership
+
+BetterScholar runs locally in the browser userscript context. It does not require a backend server. Result parsing happens on the visible Google Scholar page.
+
+---
+
+## 11. Related projects
+
+- **PaperPilot Pro** — full academic search and publisher-page enhancement
+- **ResearchFlow Companion** — research workflow operating system
+- **ClipNote** — browser-native quick notes and Markdown capture
+- **ManuGuide** — Microsoft Word manuscript formatting and style checker
+
+---
+
+## 12. License
+
+MIT License.
+
+Developed by **Shikun Hou / groele**.
